@@ -27,7 +27,15 @@ chapter5.start = function(){
     var grass = new lime.Sprite();
     grass.setSize(800,640).setPosition(0,0).setAnchorPoint(0,0).setFill(grass_gradient);
     
+    //bug count
+    var num_bugs_caught = 0;
+    var bug_count = new lime.Label()
+    bug_count.setText('Bug_count: '+num_bugs_caught);
+    bug_count.setFontFamily('Arial').setFontColor("#000000").setFontSize(20);
+    bug_count.setPosition(100,300);
+    
     scene1.appendChild(grass);
+    scene1.appendChild(bug_count);
     
 	// set current scene active
 	director.replaceScene(scene1);

@@ -12,11 +12,14 @@ goog.require('goog.math');
 goog.require('lime.Layer');
 goog.require('lime.GlossyButton');
 goog.require('lime.audio.Audio');
+goog.require('chapter6.Bug');
 
 var min_bugs=1
 var max_bugs=10;
 var round=1;
 var delta_bugs=5;
+
+
 
 // entrypoint
 chapter6.start = function(){
@@ -66,11 +69,11 @@ chapter6.start = function(){
 	
 	goog.events.listen(startButton,["mousedown","touchstart"],
 					   function(e){
-						director.pushScene(gameScene);
+					   director.pushScene(gameScene);
 					   })
 	
 	// build game scene ////////////////////////////////
-
+	
 	
 	var grass_gradient = new lime.fill.LinearGradient();
 	grass_gradient.setDirection(0,0,1,-1);
@@ -131,12 +134,12 @@ chapter6.start = function(){
 											  bug_count.setText("Bug count: "+num_bugs_caught);
 											  
 											  if (num_bugs_caught == num_bugs) {
-												min_bugs+=delta_bugs;
-												max_bugs+=delta_bugs;
-												alert("All bugs caught");
-												director.pushScene(blankScene);
-												round++;
-												chapter6.start();
+											  min_bugs+=delta_bugs;
+											  max_bugs+=delta_bugs;
+											  alert("All bugs caught");
+											  director.pushScene(blankScene);
+											  round++;
+											  chapter6.start();
 											  }
 											  });
 						   })

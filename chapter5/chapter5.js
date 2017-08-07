@@ -44,25 +44,48 @@ chapter5.start = function(){
     var num_bugs = goog.math.randomInt(10)+1;
     console.log("num_bugs= "+num_bugs);
     
-    var bugsArray = [];
-    
+	var bugsArray = [];
+	
     for (var i=0;i<num_bugs;i++) {
         var x = goog.math.uniformRandom(20,440);
         var y = goog.math.uniformRandom(50,200);
         bug = new lime.Sprite();
         bug.setAnchorPoint(0,0).setPosition(390,230).setFill('img/bug.png')
         bug.setPosition(x,y).setSize(40,37);
-        bugsArray.push(bug);
         
+        goog.events.listen(bug,['mousedown','touchstart'],
+                           function(e){
+                            var drag = e.startDrag();
+                           
+                            var that = this;
+                           
+                            e.event.stopPropagation();
+                           
+                            drag.addDropTarget(box);
+                           
+                            current_bug = this;
+                            goog.events.listen(drag,lime.events.Drag.Event.DROP,
+                                               function(e){
+                                                current_bug.setFill('');
+												delete current_bug;
+												//update bug count
+												num_bugs_caught++;
+												bug_count.setText("Bug count: "+num_bugs_caught);
+                                               });
+                           })
+        
+        bugsArray.push(bug);
     }
     
     scene1.appendChild(grass);
     scene1.appendChild(bug_count);
-    scene1.appendChild(box);
+    
     
     for (i in bugsArray) {
         scene1.appendChild(bugsArray[i]);
     }
+    
+    scene1.appendChild(box);
     
 	// set current scene active
 	director.replaceScene(scene1);

@@ -11,10 +11,12 @@ goog.require('lime.Label');
 goog.require('goog.math');
 goog.require('lime.Layer');
 goog.require('lime.GlossyButton');
+goog.require('lime.audio.Audio');
 
 var min_bugs=1
 var max_bugs=10;
 var round=1;
+var delta_bugs=5;
 
 // entrypoint
 chapter6.start = function(){
@@ -89,6 +91,9 @@ chapter6.start = function(){
 	var box = new lime.Sprite()
 	box.setAnchorPoint(0,0).setPosition(390,230).setFill("img/box.png").setSize(150,150);
 	
+	//sound
+	var bugSound = new lime.audio.Audio("sound/bug_sound.mp3");
+	
 	//number of bugs to spawn
 	var num_bugs = goog.math.randomInt(max_bugs)+min_bugs;
 	console.log("num_bugs= "+num_bugs);
@@ -115,6 +120,10 @@ chapter6.start = function(){
 						   current_bug = this;
 						   goog.events.listen(drag,lime.events.Drag.Event.DROP,
 											  function(e){
+											  
+											  bugSound.stop();
+											  bugSound.play();
+											  
 											  current_bug.setHidden(true);
 											  delete current_bug;
 											  //update bug count
@@ -122,8 +131,8 @@ chapter6.start = function(){
 											  bug_count.setText("Bug count: "+num_bugs_caught);
 											  
 											  if (num_bugs_caught == num_bugs) {
-												min_bugs+=num_bugs;
-												max_bugs+=num_bugs;
+												min_bugs+=delta_bugs;
+												max_bugs+=delta_bugs;
 												alert("All bugs caught");
 												director.pushScene(blankScene);
 												round++;

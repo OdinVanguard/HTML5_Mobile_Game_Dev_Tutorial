@@ -104,11 +104,9 @@ chapter6.start = function(){
 	var bugsArray = [];
 	
 	for (var i=0;i<num_bugs;i++) {
-		var x = goog.math.uniformRandom(20,440);
-		var y = goog.math.uniformRandom(50,200);
-		bug = new lime.Sprite();
-		bug.setAnchorPoint(0,0).setPosition(390,230).setFill('img/bug.png')
-		bug.setPosition(x,y).setSize(80,70);
+		
+		bug = new chapter6.Bug();
+		
 		
 		goog.events.listen(bug,['mousedown','touchstart'],
 						   function(e){

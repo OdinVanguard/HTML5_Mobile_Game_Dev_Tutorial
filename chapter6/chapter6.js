@@ -9,6 +9,8 @@ goog.require('lime.Sprite');
 goog.require('lime.fill.LinearGradient');
 goog.require('lime.Label');
 goog.require('goog.math');
+goog.require('lime.Layer');
+goog.require('lime.GlossyButton');
 
 var min_bugs=1
 var max_bugs=10;
@@ -20,8 +22,42 @@ chapter6.start = function(){
 	director.makeMobileWebAppCapable();
 	director.setDisplayFPS(false);
 	
-	var scene1 = new lime.Scene();
-	scene1.setRenderer(lime.Renderer.CANVAS);
+	//declare and initialize scenes
+	var initialScene = new lime.Scene();
+	initialScene.setRenderer(lime.Renderer.CANVAS);
+	
+	var gameScene = new lime.Scene();
+	gameScene.setRenderer(lime.Renderer.CANVAS);
+	
+	// build initial scene //////////////////////////////
+	var initialLayer = new lime.Layer();
+	initialLayer.setPosition(30,30);
+	
+	var initialContainer = new lime.Sprite();
+	initialContainer.setPosition(0,0).setSize(420,260).setFill("#EEE0E5").setAnchorPoint(0,0);
+	
+	var initialTitle = new lime.Label();
+	initialTitle.setText("WELCOME!");
+	initialTitle.setFontFamily("Arial").setFontColor("#FF9999").setFontSize(32);
+	initialTitle.setAnchorPoint(0,0).setPosition(115,60);
+	
+	var startButton = new lime.GlossyButton()
+	startButton.setSize(200,60).setPosition(200,150)
+	startButton.setText("Start").setColor("#00CD00")
+	
+	initialLayer.appendChild(initialContainer);
+	initialLayer.appendChild(initialTitle);
+	initialLayer.appendChild(startButton);
+	
+	initialScene.appendChild(initialLayer);
+	
+	goog.events.listen(startButton,["mousedown","touchstart"],
+					   function(e){
+						director.pushScene(gameScene);
+					   })
+	
+	// build game scene ////////////////////////////////
+
 	
 	var grass_gradient = new lime.fill.LinearGradient();
 	grass_gradient.setDirection(0,0,1,-1);
@@ -86,17 +122,17 @@ chapter6.start = function(){
 		bugsArray.push(bug);
 	}
 	
-	scene1.appendChild(grass);
-	scene1.appendChild(bug_count);
+	gameScene.appendChild(grass);
+	gameScene.appendChild(bug_count);
 	
 	
 	for (i in bugsArray) {
-		scene1.appendChild(bugsArray[i]);
+		gameScene.appendChild(bugsArray[i]);
 	}
 	
-	scene1.appendChild(box);
+	gameScene.appendChild(box);
 	
 	// set current scene active
-	director.replaceScene(scene1);
+	director.replaceScene(initialScene);
 	
 }

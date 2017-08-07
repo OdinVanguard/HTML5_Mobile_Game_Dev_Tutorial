@@ -10,6 +10,8 @@ goog.require('lime.fill.LinearGradient');
 goog.require('lime.Label');
 goog.require('goog.math');
 
+var min_bugs=1
+var max_bugs=10;
 
 // entrypoint
 chapter6.start = function(){
@@ -41,7 +43,7 @@ chapter6.start = function(){
 	box.setAnchorPoint(0,0).setPosition(390,230).setFill("img/box.png").setSize(150,150);
 	
 	//number of bugs to spawn
-	var num_bugs = goog.math.randomInt(10)+1;
+	var num_bugs = goog.math.randomInt(max_bugs)+min_bugs;
 	console.log("num_bugs= "+num_bugs);
 	
 	var bugsArray = [];
@@ -66,11 +68,18 @@ chapter6.start = function(){
 						   current_bug = this;
 						   goog.events.listen(drag,lime.events.Drag.Event.DROP,
 											  function(e){
-											  current_bug.setFill('');
+											  current_bug.setHidden(true);
 											  delete current_bug;
 											  //update bug count
 											  num_bugs_caught++;
 											  bug_count.setText("Bug count: "+num_bugs_caught);
+											  
+											  if (num_bugs_caught == num_bugs) {
+												min_bugs+=num_bugs;
+												max_bugs+=num_bugs;
+												alert("All bugs caught");
+												chapter6.start();
+											  }
 											  });
 						   })
 		

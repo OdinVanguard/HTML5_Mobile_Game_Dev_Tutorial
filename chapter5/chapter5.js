@@ -17,6 +17,7 @@ chapter5.start = function(){
     director.setDisplayFPS(false);
     
     var scene1 = new lime.Scene();
+    scene1.setRenderer(lime.Renderer.CANVAS);
     
     var grass_gradient = new lime.fill.LinearGradient();
     grass_gradient.setDirection(0,0,1,-1);

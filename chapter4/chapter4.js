@@ -9,6 +9,8 @@ goog.require('lime.Sprite');
 goog.require('lime.fill.LinearGradient');
 goog.require('lime.Polygon');
 goog.require('lime.animation.MoveTo');
+goog.require('lime.animation.RotateBy');
+goog.require('lime.animation.FadeTo');
 
 // entrypoint
 chapter4.start = function(){
@@ -39,6 +41,11 @@ chapter4.start = function(){
     //rocket
     var rocket1 = new lime.Sprite()
     rocket1.setSize(80,140).setFill("img/rocket.png").setPosition(360,420).setAnchorPoint(0,0);
+    var rocket2 = new lime.Sprite();
+    rocket2.setSize(80,140).setFill("img/rocket.png").setPosition(200,490).setAnchorPoint(.5,.5);
+    var rocket3 = new lime.Sprite();
+    rocket3.setSize(80,140).setFill("img/rocket.png").setPosition(560,420).setAnchorPoint(0,0);
+    
     
     goog.events.listen(rocket1,['mousedown','touchstart'],
                        function(e) {
@@ -47,10 +54,31 @@ chapter4.start = function(){
                             this.runAction(rocket1_movement);
                        });
     
+    goog.events.listen(rocket2,['mousedown','touchstart'],
+                       function(e) {
+                            var rocket2_movement = new lime.animation.RotateBy(90);
+                            rocket2_movement.setDuration(.5);
+                            this.runAction(rocket2_movement);
+                       })
+    
+    goog.events.listen(rocket3,['mousedown','touchstart'],
+                       function(e) {
+                            var rocket3_movement = new lime.animation.FadeTo(0);
+                            rocket3_movement.setDuration(3);
+                            this.runAction(rocket3_movement);
+                       
+                            goog.events.listen(rocket3_movement,lime.animation.Event.STOP,
+                                               function(e){
+                                                    alert("The rocket is gone");
+                                               })
+                       })
+    
     scene1.appendChild(sky);
     scene1.appendChild(grass);
     scene1.appendChild(platform);
     scene1.appendChild(rocket1);
+    scene1.appendChild(rocket2);
+    scene1.appendChild(rocket3);
     
 	// set current scene active
 	director.replaceScene(scene1);

@@ -95,7 +95,7 @@ chapter6.start = function(){
 	box.setAnchorPoint(0,0).setPosition(390,230).setFill("img/box.png").setSize(150,150);
 	
 	//sound
-	var bugSound = new lime.audio.Audio("sound/bug_sound.mp3");
+	
 	
 	//number of bugs to spawn
 	var num_bugs = goog.math.randomInt(max_bugs)+min_bugs;
@@ -122,8 +122,8 @@ chapter6.start = function(){
 						   goog.events.listen(drag,lime.events.Drag.Event.DROP,
 											  function(e){
 											  
-											  bugSound.stop();
-											  bugSound.play();
+											  current_bug.caughtSound.stop();
+											  current_bug.caughtSound.play();
 											  
 											  current_bug.setHidden(true);
 											  delete current_bug;

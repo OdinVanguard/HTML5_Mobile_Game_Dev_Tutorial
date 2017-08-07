@@ -7,6 +7,8 @@ goog.require('lime.Director');
 goog.require('lime.Scene');
 goog.require('lime.Sprite');
 goog.require('lime.fill.LinearGradient');
+goog.require('lime.Label');
+goog.require('goog.math');
 
 
 // entrypoint
@@ -34,8 +36,33 @@ chapter5.start = function(){
     bug_count.setFontFamily('Arial').setFontColor("#000000").setFontSize(20);
     bug_count.setPosition(100,300);
     
+    //box
+    var box = new lime.Sprite()
+    box.setAnchorPoint(0,0).setPosition(390,230).setFill("img/box.png");
+    
+    //number of bugs to spawn
+    var num_bugs = goog.math.randomInt(10)+1;
+    console.log("num_bugs= "+num_bugs);
+    
+    var bugsArray = [];
+    
+    for (var i=0;i<num_bugs;i++) {
+        var x = goog.math.uniformRandom(20,440);
+        var y = goog.math.uniformRandom(50,200);
+        bug = new lime.Sprite();
+        bug.setAnchorPoint(0,0).setPosition(390,230).setFill('img/bug.png')
+        bug.setPosition(x,y).setSize(40,37);
+        bugsArray.push(bug);
+        
+    }
+    
     scene1.appendChild(grass);
     scene1.appendChild(bug_count);
+    scene1.appendChild(box);
+    
+    for (i in bugsArray) {
+        scene1.appendChild(bugsArray[i]);
+    }
     
 	// set current scene active
 	director.replaceScene(scene1);

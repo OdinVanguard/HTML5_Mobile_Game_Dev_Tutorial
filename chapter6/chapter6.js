@@ -14,6 +14,7 @@ goog.require('lime.GlossyButton');
 
 var min_bugs=1
 var max_bugs=10;
+var round=1;
 
 // entrypoint
 chapter6.start = function(){
@@ -29,6 +30,16 @@ chapter6.start = function(){
 	var gameScene = new lime.Scene();
 	gameScene.setRenderer(lime.Renderer.CANVAS);
 	
+	var blankScene = new lime.Scene();
+	blankScene.setRenderer(lime.Renderer.CANVAS);
+	
+	// build blank scene
+	
+	var blackbox = new lime.Sprite();
+	blackbox.setSize(802,642).setPosition(-1,-1).setAnchorPoint(0,0).setFill("#000000");
+	
+	blankScene.appendChild(blackbox);
+	
 	// build initial scene //////////////////////////////
 	var initialLayer = new lime.Layer();
 	initialLayer.setPosition(30,30);
@@ -37,9 +48,9 @@ chapter6.start = function(){
 	initialContainer.setPosition(0,0).setSize(420,260).setFill("#EEE0E5").setAnchorPoint(0,0);
 	
 	var initialTitle = new lime.Label();
-	initialTitle.setText("WELCOME!");
-	initialTitle.setFontFamily("Arial").setFontColor("#FF9999").setFontSize(32);
-	initialTitle.setAnchorPoint(0,0).setPosition(115,60);
+	initialTitle.setText("WELCOME TO ROUND "+round);
+	initialTitle.setFontFamily("Arial").setFontColor("#FF9999").setFontSize(20);
+	initialTitle.setAnchorPoint(0,0).setPosition(80,60);
 	
 	var startButton = new lime.GlossyButton()
 	startButton.setSize(200,60).setPosition(200,150)
@@ -114,6 +125,8 @@ chapter6.start = function(){
 												min_bugs+=num_bugs;
 												max_bugs+=num_bugs;
 												alert("All bugs caught");
+												director.pushScene(blankScene);
+												round++;
 												chapter6.start();
 											  }
 											  });

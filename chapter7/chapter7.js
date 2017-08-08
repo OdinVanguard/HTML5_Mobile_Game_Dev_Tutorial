@@ -7,6 +7,8 @@ goog.require('lime.Director');
 goog.require('lime.Scene');
 goog.require('lime.Layer');
 goog.require('lime.fill.LinearGradient');
+goog.require('goog.math');
+goog.require('chapter7.Star');
 
 
 // entrypoint
@@ -31,6 +33,13 @@ chapter7.start = function(){
 	sky.setSize(480,320).setPosition(0,0).setAnchorPoint(0,0).setFill(sky_gradient);
 	
 	layer_sky.appendChild(sky);
+	
+	num_stars = goog.math.uniformRandom(100,200);
+	
+	for(i=0;i<num_stars;i++) {
+		var star = new chapter7.Star();
+		layer_sky.appendChild(star);
+	}
 	
 	scene1.appendChild(layer_sky);
 	// set current scene active

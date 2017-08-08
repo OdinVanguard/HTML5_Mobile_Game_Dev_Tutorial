@@ -6,67 +6,35 @@ goog.provide('chapter7');
 goog.require('lime.Director');
 goog.require('lime.Scene');
 goog.require('lime.Layer');
-goog.require('lime.Circle');
-goog.require('lime.Label');
-goog.require('lime.animation.Spawn');
-goog.require('lime.animation.FadeTo');
-goog.require('lime.animation.ScaleTo');
-goog.require('lime.animation.MoveTo');
+goog.require('lime.fill.LinearGradient');
 
 
 // entrypoint
 chapter7.start = function(){
 
-	var director = new lime.Director(document.body,1024,768),
-	    scene = new lime.Scene(),
-
-	    target = new lime.Layer().setPosition(512,384),
-        circle = new lime.Circle().setSize(150,150).setFill(255,150,0),
-        lbl = new lime.Label().setSize(160,50).setFontSize(30).setText('TOUCH ME!'),
-        title = new lime.Label().setSize(800,70).setFontSize(60).setText('Now move me around!')
-            .setOpacity(0).setPosition(512,80).setFontColor('#999').setFill(200,100,0,.1);
-
-
-    //add circle and label to target object
-    target.appendChild(circle);
-    target.appendChild(lbl);
-
-    //add target and title to the scene
-    scene.appendChild(target);
-    scene.appendChild(title);
-
+	var director = new lime.Director(document.body,480,320);
 	director.makeMobileWebAppCapable();
-
-    //add some interaction
-    goog.events.listen(target,['mousedown','touchstart'],function(e){
-
-        //animate
-        target.runAction(new lime.animation.Spawn(
-            new lime.animation.FadeTo(.5).setDuration(.2),
-            new lime.animation.ScaleTo(1.5).setDuration(.8)
-        ));
-
-        title.runAction(new lime.animation.FadeTo(1));
-
-        //let target follow the mouse/finger
-        e.startDrag();
-
-        //listen for end event
-        e.swallow(['mouseup','touchend'],function(){
-            target.runAction(new lime.animation.Spawn(
-                new lime.animation.FadeTo(1),
-                new lime.animation.ScaleTo(1),
-                new lime.animation.MoveTo(512,384)
-            ));
-
-            title.runAction(new lime.animation.FadeTo(0));
-        });
-
-
-    });
-
+	director.setDisplayFPS(false);
+	
+	var scene1 = new lime.Scene();
+	scene1.setRenderer();
+	
+	//build sky layer
+	var layer_sky = new lime.Layer();
+	layer_sky.setAnchorPoint(0,0).setPosition(0,0);
+	
+	var sky_gradient = new lime.fill.LinearGradient();
+	sky_gradient.setDirection(0,0,1,-1);
+	sky_gradient.addColorStop(0,"#11111F").addColorStop(0.5,"#282828");
+	
+	var sky = new lime.Sprite();
+	sky.setSize(480,320).setPosition(0,0).setAnchorPoint(0,0).setFill(sky_gradient);
+	
+	layer_sky.appendChild(sky);
+	
+	scene1.appendChild(layer_sky);
 	// set current scene active
-	director.replaceScene(scene);
+	director.replaceScene(scene1);
 
 }
 

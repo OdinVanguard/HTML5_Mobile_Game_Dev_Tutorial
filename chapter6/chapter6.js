@@ -13,12 +13,17 @@ goog.require('lime.Layer');
 goog.require('lime.GlossyButton');
 goog.require('lime.audio.Audio');
 goog.require('chapter6.Bug');
+goog.require('lime.animation.RotateTo')
+//goog.require('lime.scheduleManager');
 
 var min_bugs=1
-var max_bugs=10;
+var max_bugs=3;
 var round=1;
-var delta_bugs=5;
-
+var delta_bugs=3;
+var bug_speed=0.01;
+var bug_speed_factor=1.5;
+var bug_scale=1.0;
+var bug_scale_factor=.9;
 
 
 // entrypoint
@@ -83,6 +88,10 @@ chapter6.start = function(){
 	var grass = new lime.Sprite();
 	grass.setSize(800,640).setPosition(0,0).setAnchorPoint(0,0).setFill(grass_gradient);
 	
+	var bugPen = new lime.Sprite();
+	bugPen.setSize(800,640).setPosition(0,0).setAnchorPoint(0,0).setFill(0,0,0,0.15)
+	bugPen.setPosition(20,50).setSize(420,150);
+	
 	//bug count
 	var num_bugs_caught = 0;
 	var bug_count = new lime.Label()
@@ -100,13 +109,15 @@ chapter6.start = function(){
 	//number of bugs to spawn
 	var num_bugs = goog.math.randomInt(max_bugs)+min_bugs;
 	console.log("num_bugs= "+num_bugs);
+	console.log("bug_speed="+bug_speed);
 	
 	var bugsArray = [];
 	
 	for (var i=0;i<num_bugs;i++) {
 		
-		bug = new chapter6.Bug();
+		bug = new chapter6.Bug(speed=bug_speed,sizeScale=bug_scale);
 		
+		bug.crawl();
 		
 		goog.events.listen(bug,['mousedown','touchstart'],
 						   function(e){
@@ -119,9 +130,10 @@ chapter6.start = function(){
 						   drag.addDropTarget(box);
 						   
 						   current_bug = this;
+						   this.beingDragged = true;
+						   console.log("started dragging a bug");
 						   goog.events.listen(drag,lime.events.Drag.Event.DROP,
 											  function(e){
-											  
 											  current_bug.caughtSound.stop();
 											  current_bug.caughtSound.play();
 											  
@@ -137,15 +149,29 @@ chapter6.start = function(){
 											  alert("All bugs caught");
 											  director.pushScene(blankScene);
 											  round++;
+											  bug_speed=bug_speed_factor * bug_speed;
+											  bug_scale=bug_scale*bug_scale_factor;
 											  chapter6.start();
 											  }
 											  });
-						   })
+						   e.swallow(['mouseup','touchend','touchcancel'],
+											  function(){
+												if ((typeof current_bug === 'undefined')){
+													console.log("caught a bug");
+												} else {
+													current_bug.beingDragged = false;
+													console.log("stopped dragging a bug");
+												}
+											  });
+						   
+						   });
+		
 		
 		bugsArray.push(bug);
 	}
 	
 	gameScene.appendChild(grass);
+	gameScene.appendChild(bugPen);
 	gameScene.appendChild(bug_count);
 	
 	

@@ -8,7 +8,12 @@ goog.require('lime.Scene');
 goog.require('lime.Layer');
 goog.require('lime.fill.LinearGradient');
 goog.require('goog.math');
+goog.require('lime.animation.MoveTo');
+
+
 goog.require('chapter7.Star');
+goog.require('chapter7.Player');
+//goog.require('chapter7.Bullet');
 
 
 // entrypoint
@@ -34,6 +39,7 @@ chapter7.start = function(){
 	
 	layer_sky.appendChild(sky);
 	
+	//add stars to sky layer
 	num_stars = goog.math.uniformRandom(100,200);
 	
 	for(i=0;i<num_stars;i++) {
@@ -41,7 +47,23 @@ chapter7.start = function(){
 		layer_sky.appendChild(star);
 	}
 	
+	//add player spaceship
+	var player = new chapter7.Player();
+	player.setPosition(240,280);
+	
+	//add player movement
+	goog.events.listen(layer_sky,['mousedown','touchstart'],
+					  function(e){
+						var rocket_movement = new lime.animation.MoveTo(e.position.x,
+																		player.getPosition().y);
+						rocket_movement.setDuration(1);
+					  
+						player.runAction(rocket_movement);
+					  })
+	
 	scene1.appendChild(layer_sky);
+	scene1.appendChild(player);
+	
 	// set current scene active
 	director.replaceScene(scene1);
 

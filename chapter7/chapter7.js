@@ -14,6 +14,7 @@ goog.require('lime.animation.MoveTo');
 goog.require('chapter7.Star');
 goog.require('chapter7.Player');
 goog.require('chapter7.Bullet');
+goog.require('chapter7.Enemy');
 
 
 // entrypoint
@@ -69,6 +70,15 @@ chapter7.start = function(){
 										   
 		scene1.appendChild(bullet);
 	},player,500)
+	
+	num_enemies = goog.math.uniformRandom(10,20);
+	enemies = [];
+	
+	for(i=0;i<num_enemies;i++){
+		var enemy = new chapter7.Enemy();
+		enemies.push(enemy);
+		layer_sky.appendChild(enemy);
+	}
 	
 	lime.scheduleManager.schedule(function(dt){
 		for(i in this.bullets){

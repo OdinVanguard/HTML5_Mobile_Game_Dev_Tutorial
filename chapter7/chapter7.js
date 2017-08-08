@@ -41,7 +41,7 @@ chapter7.start = function(){
 	layer_sky.appendChild(sky);
 	
 	//add stars to sky layer
-	num_stars = goog.math.uniformRandom(100,200);
+	num_stars = goog.math.uniformRandom(200,400);
 	
 	for(i=0;i<num_stars;i++) {
 		var star = new chapter7.Star();

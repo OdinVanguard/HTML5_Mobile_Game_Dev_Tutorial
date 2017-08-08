@@ -41,7 +41,7 @@ chapter7.start = function(){
 	layer_sky.appendChild(sky);
 	
 	//add stars to sky layer
-	num_stars = goog.math.uniformRandom(200,400);
+	num_stars = goog.math.uniformRandom(150,300);
 	
 	for(i=0;i<num_stars;i++) {
 		var star = new chapter7.Star();
@@ -63,12 +63,14 @@ chapter7.start = function(){
 					  })
 	
 	lime.scheduleManager.scheduleWithDelay(function() { // 500=500ms=.5sec
-		var bullet = new chapter7.Bullet()
-		bullet.setPosition(this.getPosition().x,245);
+		if (this.bullets.length < this.max_bullets) {
+			var bullet = new chapter7.Bullet()
+			bullet.setPosition(this.getPosition().x,245);
 		
-		this.bullets.push(bullet);
+			this.bullets.push(bullet);
 										   
-		scene1.appendChild(bullet);
+			scene1.appendChild(bullet);
+		}
 	},player,500)
 	
 	num_enemies = goog.math.uniformRandom(10,20);
@@ -83,6 +85,7 @@ chapter7.start = function(){
 	lime.scheduleManager.schedule(function(dt){
 		for(i in this.bullets){
 			current_bullet = this.bullets[i];
+			remove_current_bullet=false;
 			current_x = current_bullet.getPosition().x;
 			current_y = current_bullet.getPosition().y;
 			
@@ -91,10 +94,30 @@ chapter7.start = function(){
 			current_bullet.setPosition(current_x,new_y);
 				
 			if (new_y < 0) {
+				remove_current_bullet=true;
+			}
+			
+			for(j in enemies) {
+				if(goog.math.Box.intersects(this.bullets[i].getBoundingBox(),
+					enemies[j].getBoundingBox())) {
+					enemies[j].setHidden(true).removeDomElement();
+					delete enemies[j];
+					enemies.splice(j,1);
+					num_enemies--;
+					remove_current_bullet=true;
+				}
+			}
+			
+			if(remove_current_bullet) {
 				current_bullet.setHidden(true).removeDomElement();
 				delete this.bullets[i];
 				this.bullets.splice(i,1);
 			}
+			
+		}
+		
+		//collision detection
+		for(j in enemies){
 		}
 								  
 	},player)

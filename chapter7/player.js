@@ -10,6 +10,8 @@ chapter7.Player = function() {
 	
 	this.setFill("img/rocket.png").setSize(40,70);
 	
+	this.max_bullets=3;
+	
 	this.bullets = [];
 	
 }

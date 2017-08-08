@@ -10,7 +10,7 @@ chapter7.Bullet = function() {
 	
 	this.setFill("#C6F022").setSize(5,7);
 	
-	this.speed = 0.2
+	this.speed = 0.1
 	this.speed_y = goog.math.angleDy(270,this.speed);
 	
 }

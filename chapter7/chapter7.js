@@ -75,9 +75,16 @@ chapter7.start = function(){
 			current_bullet = this.bullets[i];
 			current_x = current_bullet.getPosition().x;
 			current_y = current_bullet.getPosition().y;
-								  
-			current_bullet.setPosition(current_x,
-				current_y+current_bullet.speed_y*dt);
+			
+			new_y = current_y+current_bullet.speed_y*dt;
+			
+			current_bullet.setPosition(current_x,new_y);
+				
+			if (new_y < 0) {
+				current_bullet.setHidden(true).removeDomElement();
+				delete this.bullets[i];
+				this.bullets.splice(i,1);
+			}
 		}
 								  
 	},player)

@@ -1,7 +1,7 @@
 goog.provide('chapter7.Player');
 
 goog.require('lime.Sprite');
-//goog.require('chapter7.Bullet');
+goog.require('chapter7.Bullet');
 
 chapter7.Player = function() {
 	

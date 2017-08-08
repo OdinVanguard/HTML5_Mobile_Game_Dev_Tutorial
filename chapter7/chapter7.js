@@ -13,7 +13,7 @@ goog.require('lime.animation.MoveTo');
 
 goog.require('chapter7.Star');
 goog.require('chapter7.Player');
-//goog.require('chapter7.Bullet');
+goog.require('chapter7.Bullet');
 
 
 // entrypoint
@@ -60,6 +60,27 @@ chapter7.start = function(){
 					  
 						player.runAction(rocket_movement);
 					  })
+	
+	lime.scheduleManager.scheduleWithDelay(function() { // 500=500ms=.5sec
+		var bullet = new chapter7.Bullet()
+		bullet.setPosition(this.getPosition().x,245);
+		
+		this.bullets.push(bullet);
+										   
+		scene1.appendChild(bullet);
+	},player,500)
+	
+	lime.scheduleManager.schedule(function(dt){
+		for(i in this.bullets){
+			current_bullet = this.bullets[i];
+			current_x = current_bullet.getPosition().x;
+			current_y = current_bullet.getPosition().y;
+								  
+			current_bullet.setPosition(current_x,
+				current_y+current_bullet.speed_y*dt);
+		}
+								  
+	},player)
 	
 	scene1.appendChild(layer_sky);
 	scene1.appendChild(player);

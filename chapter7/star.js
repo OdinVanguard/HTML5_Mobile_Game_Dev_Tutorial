@@ -37,12 +37,14 @@ chapter7.Star = function() {
 		current_y=this.getPosition().y
 		
 		new_x = current_x+this.speed_x*dt;
-		new_x = goog.math.modulo(new_x,this.max_x-this.min_x)+this.min_x;
+		new_x = goog.math.modulo(new_x,this.max_x-this.min_x)+
+                        this.min_x;
 		
 		new_y = current_y + this.speed_y*dt;
 		if (new_y > this.max_y) {
 			new_y = this.min_y;
-			new_x = goog.math.uniformRandom(this.min_x,this.max_x);
+			new_x = goog.math.uniformRandom(this.min_x,
+                                    this.max_x);
 			this.applyRandomDepth();
 		}
 		
@@ -55,7 +57,8 @@ chapter7.Star = function() {
 goog.inherits(chapter7.Star, lime.Circle);
 
 chapter7.Star.prototype.applyRandomDepth = function() {
-	this.depth = goog.math.uniformRandom(this.minDepthFactor,this.maxDepthFactor);
+	this.depth = goog.math.uniformRandom(this.minDepthFactor,
+                        this.maxDepthFactor);
 	
 	this.setSize(this.size_x/this.depth,this.size_y/this.depth);
 	

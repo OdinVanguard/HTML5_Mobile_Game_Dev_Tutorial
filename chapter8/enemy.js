@@ -11,6 +11,11 @@ chapter8.Enemy = function() {
 	//call the parent constructor
 	goog.base(this);
 	
+        this.max_x=480;
+	this.min_x=0;
+	this.max_y=320;
+	this.min_y=0;
+        
         //animated enemy
         //lime.fill.Frame signature:
         // (spriteSheetPath,start_x,start_y,width,height)
@@ -28,9 +33,20 @@ chapter8.Enemy = function() {
         
         this.runAction(animated_sprite);
         
+        this.setSize(60,30);
+        this.max_x-=this.getSize().width/2;
+        //this.min_x+=this.getSize().width/2;
+        this.max_y-=this.getSize().height/2;
+        //this.min_y+=this.getSize().height/2;
+        
+        //this.setAnchorPoint(.5,.5);
+        	
+        console.log("enemy size:"+this.getSize().width+
+                " x "+this.getSize().height);
+        
 	var x = goog.math.uniformRandom(0,480);
 	var y = goog.math.uniformRandom(30,60);
-	
+        
 	this.setPosition(x,y);
 	this.max_speed_x=.25;
 	this.accel_x=0;
@@ -41,12 +57,7 @@ chapter8.Enemy = function() {
 	this.speed_y_target=.0025;
 	this.speed_y_delta=.125;
 	this.player_repel_coefficient=.5
-	
-	this.max_x=480;
-	this.min_x=0;
-	this.max_y=320;
-	this.min_y=0;
-	
+        
 	//make it move
 	lime.scheduleManager.schedule(function(dt){
 		current_x = this.getPosition().x;

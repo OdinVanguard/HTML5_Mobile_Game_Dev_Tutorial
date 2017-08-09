@@ -21,13 +21,15 @@ goog.require('chapter8.Enemy');
 // entrypoint
 chapter8.start = function(){
 
-	var director = new lime.Director(document.body,480,320);
+	var director = new lime.Director(document.body,640,480);
 	director.makeMobileWebAppCapable();
 	director.setDisplayFPS(false);
 	
 	var scene1 = new lime.Scene();
 	scene1.setRenderer();
 	
+        
+        
 	//build sky layer
 	var layer_sky = new lime.Layer();
 	layer_sky.setAnchorPoint(0,0).setPosition(0,0);

@@ -1,9 +1,9 @@
-goog.provide('chapter7.Player');
+goog.provide('chapter8.Player');
 
 goog.require('lime.Sprite');
-goog.require('chapter7.Bullet');
+goog.require('chapter8.Bullet');
 
-chapter7.Player = function() {
+chapter8.Player = function() {
 	
 	//call the parent constructor
 	goog.base(this);
@@ -16,4 +16,4 @@ chapter7.Player = function() {
 	
 }
 
-goog.inherits(chapter7.Player, lime.Sprite);
+goog.inherits(chapter8.Player, lime.Sprite);

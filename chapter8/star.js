@@ -1,9 +1,9 @@
-goog.provide('chapter7.Star');
+goog.provide('chapter8.Star');
 
 goog.require('lime.Circle');
 goog.require('goog.math');
 
-chapter7.Star = function() {
+chapter8.Star = function() {
 	
 	//call parent constructor
 	goog.base(this);
@@ -53,10 +53,10 @@ chapter7.Star = function() {
 	},this)
 }
 
-//chapter7.Star inherits from Circle
-goog.inherits(chapter7.Star, lime.Circle);
+//chapter8.Star inherits from Circle
+goog.inherits(chapter8.Star, lime.Circle);
 
-chapter7.Star.prototype.applyRandomDepth = function() {
+chapter8.Star.prototype.applyRandomDepth = function() {
 	this.depth = goog.math.uniformRandom(this.minDepthFactor,
                         this.maxDepthFactor);
 	

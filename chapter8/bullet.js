@@ -1,9 +1,9 @@
-goog.provide('chapter7.Bullet');
+goog.provide('chapter8.Bullet');
 
 goog.require('lime.Circle');
 goog.require('goog.math');
 
-chapter7.Bullet = function() {
+chapter8.Bullet = function() {
 	
 	//call parent constructor
 	goog.base(this);
@@ -15,5 +15,5 @@ chapter7.Bullet = function() {
 	
 }
 
-//chapter7.Star inherits from Circle
-goog.inherits(chapter7.Bullet, lime.Circle);
+//chapter8.Star inherits from Circle
+goog.inherits(chapter8.Bullet, lime.Circle);

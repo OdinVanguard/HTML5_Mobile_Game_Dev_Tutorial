@@ -12,10 +12,10 @@ goog.require('goog.math');
 goog.require('lime.animation.MoveTo');
 
 
-goog.require('chapter7.Star');
-goog.require('chapter7.Player');
-goog.require('chapter7.Bullet');
-goog.require('chapter7.Enemy');
+goog.require('chapter8.Star');
+goog.require('chapter8.Player');
+goog.require('chapter8.Bullet');
+goog.require('chapter8.Enemy');
 
 
 // entrypoint
@@ -48,12 +48,12 @@ chapter8.start = function(){
 	num_stars = goog.math.uniformRandom(150,300);
 	
 	for(i=0;i<num_stars;i++) {
-		var star = new chapter7.Star();
+		var star = new chapter8.Star();
 		layer_sky.appendChild(star);
 	}
 	
 	//add player spaceship
-	var player = new chapter7.Player();
+	var player = new chapter8.Player();
 	player.setPosition(240,280);
 	
 	//add player movement
@@ -66,7 +66,7 @@ chapter8.start = function(){
 	
 	lime.scheduleManager.scheduleWithDelay(function() { // 500=500ms=.5sec
 		if (this.bullets.length < this.max_bullets) {
-			var bullet = new chapter7.Bullet()
+			var bullet = new chapter8.Bullet()
 			bullet.setPosition(this.getPosition().x,245);
 		
 			this.bullets.push(bullet);
@@ -81,7 +81,7 @@ chapter8.start = function(){
 	enemies = [];
 	
 	for(i=0;i<num_enemies;i++){
-		var enemy = new chapter7.Enemy();
+		var enemy = new chapter8.Enemy();
 		//enemy.max_speed_x = enemy.max_speed_x*Math.pow(2,wave_number/4);
 		enemy.speed_y_target = enemy.speed_y_target*
                         Math.pow(2,wave_number/4);
@@ -140,7 +140,7 @@ chapter8.start = function(){
 			enemies = [];
 	
 			for(i=0;i<num_enemies;i++){
-				var enemy = new chapter7.Enemy();
+				var enemy = new chapter8.Enemy();
 				//enemy.max_speed_x = enemy.max_speed_x*
                                 //  Math.pow(2,wave_number/4);
 				enemy.speed_y_target = enemy.speed_y_target*

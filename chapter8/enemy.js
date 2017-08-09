@@ -1,10 +1,10 @@
-goog.provide('chapter7.Enemy');
+goog.provide('chapter8.Enemy');
 
 goog.require('lime.Sprite');
-goog.require('chapter7.Bullet');
+goog.require('chapter8.Bullet');
 goog.require('goog.math');
 
-chapter7.Enemy = function() {
+chapter8.Enemy = function() {
 	
 	//call the parent constructor
 	goog.base(this);
@@ -66,4 +66,4 @@ chapter7.Enemy = function() {
 	
 }
 
-goog.inherits(chapter7.Enemy, lime.Sprite);
+goog.inherits(chapter8.Enemy, lime.Sprite);

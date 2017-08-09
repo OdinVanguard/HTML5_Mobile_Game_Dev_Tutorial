@@ -1,6 +1,8 @@
 goog.provide('chapter8.Enemy');
 
 goog.require('lime.Sprite');
+goog.require('lime.fill.Frame');
+goog.require('lime.animation.KeyframeAnimation');
 goog.require('chapter8.Bullet');
 goog.require('goog.math');
 
@@ -9,13 +11,28 @@ chapter8.Enemy = function() {
 	//call the parent constructor
 	goog.base(this);
 	
-	this.setFill("img/enemy.png");
-	
+        //animated enemy
+        //lime.fill.Frame signature:
+        // (spriteSheetPath,start_x,start_y,width,height)
+	var frame1 = new lime.fill.Frame("img/enemy_anim.png",0,0,60,30);
+	var frame2 = new lime.fill.Frame("img/enemy_anim.png",60,0,60,30);
+	var frame3 = new lime.fill.Frame("img/enemy_anim.png",120,0,60,30);
+	var frame4 = new lime.fill.Frame("img/enemy_anim.png",180,0,60,30);
+        
+        var animated_sprite = new lime.animation.KeyframeAnimation();
+        animated_sprite.setDelay(0.5);
+        animated_sprite.addFrame(frame1);
+        animated_sprite.addFrame(frame2);
+        animated_sprite.addFrame(frame3);
+        animated_sprite.addFrame(frame4);
+        
+        this.runAction(animated_sprite);
+        
 	var x = goog.math.uniformRandom(0,480);
 	var y = goog.math.uniformRandom(30,60);
 	
 	this.setPosition(x,y);
-	this.max_speed_x=.5;
+	this.max_speed_x=.25;
 	this.accel_x=0;
 	this.friction=.01;
 	this.speed_x=goog.math.uniformRandom(-this.max_speed_x,

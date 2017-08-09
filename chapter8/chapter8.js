@@ -29,7 +29,6 @@ chapter8.start = function(){
 	scene1.setRenderer();
 	
         
-        
 	//build sky layer
 	var layer_sky = new lime.Layer();
 	layer_sky.setAnchorPoint(0,0).setPosition(0,0);

@@ -79,6 +79,7 @@ chapter9.start = function(){
     //create blocks////////////////////////////////////////////
     var num_blocks = 3;
     var blocks = [];
+    //might be a good idea to put block creation into a separate class file
     for(i=0;i<num_blocks;i++){
         //limejs element
         var width = goog.math.uniformRandom(20,40);
@@ -111,6 +112,32 @@ chapter9.start = function(){
     }
     ////////////////////////////////////////////
     
+    //player controlled ball////////////////////////////////////////////
+    //uses lime.Circle for rendering
+    //add lime element
+    var ball = new lime.Circle();
+    ball.setFill("#FFB90F");
+    ball.setSize(40,40);
+    layer1.appendChild(ball);
+    
+    //body definition
+    var bodyDef = new box2d.BodyDef();
+    bodyDef.position.Set(200,100); //position of body center
+    
+    //shape definition
+    var shapeDef = new box2d.BoxDef;
+    shapeDef.restitution = 0.9
+    shapeDef.density = 10;
+    shapeDef.friction = 1;
+    shapeDef.extents.Set(20,20);
+    
+    bodyDef.AddShape(shapeDef);
+    
+    var body = world.CreateBody(bodyDef);
+    ball._body = body;
+    
+    ////////////////////////////////////////////
+    
     //link limejs objects to body
     //source: https://gist.github.com/1758226
     function updateFromBody(shape){
@@ -126,8 +153,27 @@ chapter9.start = function(){
         for(i in blocks){
             updateFromBody(blocks[i]);
         }
+        updateFromBody(ball);
     },world,dt)
     
+    ////////////////////////////////////////////
+    
+    //Human interaction////////////////////////////////////////////
+    goog.events.listen(sky,['mousedown','touchstart'],
+        function(e){
+           e.event.stopPropagation();
+           
+           mouse_coord_x = e.position.x;
+           mouse_coord_y = e.position.y;
+           
+           ball._body.ApplyImpulse(
+                new box2d.Vec2(
+                        (mouse_coord_x-ball.getPosition().x)*
+                            ball._body.GetMass(),
+                        (mouse_coord_y-ball.getPosition().y)*
+                            ball._body.GetMass()),
+                ball.getPosition()); //direction,position
+        });
     ////////////////////////////////////////////
     
     director.replaceScene(scene1);

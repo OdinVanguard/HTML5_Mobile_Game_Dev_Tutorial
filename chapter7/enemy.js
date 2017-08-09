@@ -22,6 +22,7 @@ chapter7.Enemy = function() {
 	this.speed_y=0;
 	this.speed_y_target=.0025;
 	this.speed_y_delta=.125;
+	this.player_repel_coefficient=.5
 	
 	this.max_x=480;
 	this.min_x=0;

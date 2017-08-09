@@ -38,6 +38,8 @@ chapter7.start = function(){
 	var sky = new lime.Sprite();
 	sky.setSize(480,320).setPosition(0,0).setAnchorPoint(0,0).setFill(sky_gradient);
 	
+	var enemy_goal_y = 280;
+	
 	layer_sky.appendChild(sky);
 	
 	//add stars to sky layer
@@ -73,14 +75,19 @@ chapter7.start = function(){
 		}
 	},player,500)
 	
-	num_enemies = goog.math.uniformRandom(10,20);
+	var wave_number = 1;
+	var wave_count = goog.math.safeFloor(goog.math.uniformRandom(10,20));
+	var num_enemies = wave_count
 	enemies = [];
 	
 	for(i=0;i<num_enemies;i++){
 		var enemy = new chapter7.Enemy();
+		//enemy.max_speed_x = enemy.max_speed_x*Math.pow(2,wave_number/4);
+		enemy.speed_y_target = enemy.speed_y_target*Math.pow(2,wave_number/4);
 		enemies.push(enemy);
 		layer_sky.appendChild(enemy);
 	}
+	console.log("starting wave "+wave_number+"; enemy count="+enemies.length);
 	
 	lime.scheduleManager.schedule(function(dt){
 		for(i in this.bullets){
@@ -103,8 +110,9 @@ chapter7.start = function(){
 					enemies[j].setHidden(true).removeDomElement();
 					delete enemies[j];
 					enemies.splice(j,1);
-					num_enemies--;
+					num_enemies=goog.math.safeFloor(num_enemies-1);
 					remove_current_bullet=true;
+					console.log("enemy hit,"+num_enemies+"remain");
 				}
 			}
 			
@@ -116,8 +124,37 @@ chapter7.start = function(){
 			
 		}
 		
-		//collision detection
-		for(j in enemies){
+		if(num_enemies <= 0) {
+			wave_number++;
+			wave_count = wave_count + goog.math.safeFloor(goog.math.uniformRandom(1,5));
+			num_enemies = wave_count;
+			enemies = [];
+	
+			for(i=0;i<num_enemies;i++){
+				var enemy = new chapter7.Enemy();
+				//enemy.max_speed_x = enemy.max_speed_x*Math.pow(2,wave_number/4);
+				enemy.speed_y_target = enemy.speed_y_target*Math.pow(2,wave_number/4);
+				enemies.push(enemy);
+				layer_sky.appendChild(enemy);
+			}
+			console.log("starting wave "+wave_number+"; enemy count="+enemies.length);
+		} else {
+			reset_game = false;
+			if (enemies.length > 0) {
+				for (i=0; i<enemies.length;i++){
+					enemy=enemies[i];
+					if (enemy.getPosition().y > enemy_goal_y) {
+						alert("An enemy got by you!... you lost at wave "+wave_number);
+						enemy.setPosition(enemy.getPosition().x,0);
+						wave_number=1;
+					}
+					enemy_x=enemy.getPosition().x;
+					player_x=player.getPosition().x;
+					repel_force=enemy.player_repel_coefficient*(enemy_x-player_x);
+					enemy.accel_x+=repel_force;
+				}
+			}
+			
 		}
 								  
 	},player)

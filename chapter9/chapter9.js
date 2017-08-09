@@ -125,11 +125,11 @@ chapter9.start = function(){
     bodyDef.position.Set(200,100); //position of body center
     
     //shape definition
-    var shapeDef = new box2d.BoxDef;
+    var shapeDef = new box2d.CircleDef;
     shapeDef.restitution = 0.9
     shapeDef.density = 10;
     shapeDef.friction = 1;
-    shapeDef.extents.Set(20,20);
+    shapeDef.radius=20;
     
     bodyDef.AddShape(shapeDef);
     

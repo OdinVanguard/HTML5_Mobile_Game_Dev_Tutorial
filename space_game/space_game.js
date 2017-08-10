@@ -16,6 +16,7 @@ goog.require('space_game.Star');
 goog.require('space_game.Player');
 goog.require('space_game.Bullet');
 goog.require('space_game.Enemy');
+goog.require('space_game.Wave');
 
 
 // entrypoint
@@ -25,27 +26,13 @@ space_game.start = function(){
 	director.makeMobileWebAppCapable();
 	director.setDisplayFPS(false);
 	
+        var wave_number = 1;
         
+        var wave = new space_game.Wave(wave_number);
         
-	var scene1 = new lime.Scene();
-	scene1.setRenderer();
+        director.replaceScene(wave.wave_scene);
 	
-        
-	//build sky layer
-	var layer_sky = new lime.Layer();
-	layer_sky.setAnchorPoint(0,0).setPosition(0,0);
-	
-	var sky_gradient = new lime.fill.LinearGradient();
-	sky_gradient.setDirection(0,0,1,-1);
-	sky_gradient.addColorStop(0,"#11111F").addColorStop(0.5,"#282828");
-	
-	var sky = new lime.Sprite();
-	sky.setSize(480,320).setPosition(0,0).setAnchorPoint(0,0)
-        sky.setFill(sky_gradient);
-	
-	var enemy_goal_y = 280;
-	
-	layer_sky.appendChild(sky);
+	/*var enemy_goal_y = 280;
 	
 	//add stars to sky layer
 	num_stars = goog.math.uniformRandom(150,300);
@@ -184,7 +171,7 @@ space_game.start = function(){
 	scene1.appendChild(player);
 	
 	// set current scene active
-	director.replaceScene(scene1);
+	director.replaceScene(scene1);*/
 
 }
 

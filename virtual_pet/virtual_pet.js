@@ -39,6 +39,7 @@ virtual_pet.start = function(){
     var menuArea = new lime.Sprite()
     menuArea.setFill("#885A00");
     menuArea.setPosition(gameObj.width/2,gameObj.height*9/10);
+    menuArea.setSize(gameObj.width,gameObj.height/5)
     
     
     gameLayer.appendChild(background);

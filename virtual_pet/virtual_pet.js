@@ -8,8 +8,8 @@ goog.require('lime.Scene');
 goog.require('lime.Layer');
 goog.require('lime.Circle');
 goog.require('lime.Label');
-goog.require('virtual_pet.Pet');
-goog.require('virtual_pet.Item');
+//goog.require('virtual_pet.Pet');
+//goog.require('virtual_pet.Item');
 
 
 // entrypoint
@@ -18,7 +18,7 @@ virtual_pet.start = function(){
     var gameObj = {
         width: 320,
         height: 480,
-        renderer: lime.Render.CANVAS,
+        renderer: lime.Renderer.CANVAS,
         maxPetSize: 200
     };
     

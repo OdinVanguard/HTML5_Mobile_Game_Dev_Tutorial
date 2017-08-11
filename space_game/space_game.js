@@ -17,7 +17,8 @@ goog.require('space_game.Player');
 goog.require('space_game.Bullet');
 goog.require('space_game.Enemy');
 goog.require('space_game.Wave');
-
+goog.require('space_game.State_Machine');
+goog.require('space_game.Signal');
 
 // entrypoint
 space_game.start = function(){
@@ -28,7 +29,17 @@ space_game.start = function(){
 	
         var wave_number = 1;
         
-        var wave = new space_game.Wave(wave_number);
+        
+        var state_machine = new space_game.State_Machine();
+        state_machine.name = "Space_Game_State_Machine";
+        state_machine.setStateList(["Startup","Main_Menu","Loading_Wave",
+            "Running_Wave","Ending_Wave","Store","Help"]);
+        state_machine.setState("Running_Wave"); //will implement rest later
+        
+        state_machine.printLog();
+        
+        var wave = new space_game.Wave(wave_number,state_machine);
+        
         
         director.replaceScene(wave.wave_scene);
 	

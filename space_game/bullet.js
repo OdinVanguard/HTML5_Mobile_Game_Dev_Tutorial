@@ -2,6 +2,8 @@ goog.provide('space_game.Bullet');
 
 goog.require('lime.Circle');
 goog.require('goog.math');
+goog.require('space_game.State_Machine');
+goog.require('space_game.Signal');
 
 space_game.Bullet = function() {
 	

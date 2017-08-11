@@ -11,15 +11,30 @@ goog.require('space_game.Star');
 goog.require('space_game.Player');
 goog.require('space_game.Bullet');
 goog.require('space_game.Enemy');
+goog.require('space_game.State_Machine');
+goog.require('space_game.Signal');
 
-space_game.Wave = function(wave_number) {
+space_game.Wave = function(wave_number,parent_state_machine) {
    
     goog.base(this);
-   
+
+    this.parent_state_machine = parent_state_machine;
+    
+    this.state_machine = new space_game.State_Machine();
+    
+    this.state_machine.name = "Wave_State_Machine";
+    
+    this.state_machine.state_list=["Startup","Running","Paused",
+        "WinTransition","LossTransition","Done"];
+    
+    this.state_machine.state="Startup";
+    
+    this.state_machine.printLog();
+    
     this.wave_number=wave_number;
     
     this.wave_scene=new lime.Scene();
-   
+
     //build sky layer
     this.layer_sky = new lime.Layer();
     this.layer_sky.setAnchorPoint(0,0).setPosition(0,0);
@@ -35,8 +50,9 @@ space_game.Wave = function(wave_number) {
     this.layer_sky.appendChild(this.sky);
     
     this.wave_scene.appendChild(this.layer_sky);
+    
     //
-
+    
 }
 
 goog.inherits(space_game.Wave, lime.Node);

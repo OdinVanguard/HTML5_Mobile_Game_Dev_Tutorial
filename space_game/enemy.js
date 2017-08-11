@@ -5,6 +5,8 @@ goog.require('lime.fill.Frame');
 goog.require('lime.animation.KeyframeAnimation');
 goog.require('space_game.Bullet');
 goog.require('goog.math');
+goog.require('space_game.State_Machine');
+goog.require('space_game.Signal');
 
 space_game.Enemy = function() {
 	

@@ -2,6 +2,8 @@ goog.provide('space_game.Player');
 
 goog.require('lime.Sprite');
 goog.require('space_game.Bullet');
+goog.require('space_game.State_Machine');
+goog.require('space_game.Signal');
 
 space_game.Player = function() {
 	

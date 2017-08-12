@@ -126,17 +126,18 @@ space_game.State_Machine.prototype.addStateToStateList = function(state) {
 }
 
 space_game.State_Machine.prototype.getStateList = function() {
-    return(this.state_list)
+    return(this.state_list);
 }
 space_game.State_Machine.prototype.getState = function() {
     return(this.state);
 }
 
-space_game.State_Machine.prototype.formTransition(from_state,to_state){
-    return("_"+from_state+"__TO__"+to_state+"_")
+space_game.State_Machine.prototype.formTransition = 
+    function(from_state,to_state){
+    return("_"+from_state+"__TO__"+to_state+"_");
 }
 
-space_game.State_Machine.prototype.addAllowedTransition(transition) {
+space_game.State_Machine.prototype.addAllowedTransition = function(transition) {
     if (!this.allowedTransitions.includes(transition)) {
         this.allowedTransitions.push(transition);
     } else {
@@ -146,7 +147,8 @@ space_game.State_Machine.prototype.addAllowedTransition(transition) {
     }
 }
 
-space_game.State_Machine.prototype.addDisallowedTransition(transition) {
+space_game.State_Machine.prototype.addDisallowedTransition = 
+    function(transition) {
     if (!this.disallowedTransitions.includes(transition)) {
         this.disallowedTransitions.push(transition);
     } else {
@@ -156,7 +158,7 @@ space_game.State_Machine.prototype.addDisallowedTransition(transition) {
     }
 }
 
-space_game.State_Machine.prototype.canTransitionTo(state) {
+space_game.State_Machine.prototype.canTransitionTo = function(state) {
     canTransition=true;
     transition="_"+this.state+"__TO__"+state+"_"
     if (this.allowedTransitions.length > 0) {

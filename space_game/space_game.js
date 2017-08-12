@@ -10,13 +10,14 @@ goog.require('lime.Layer');
 goog.require('lime.fill.LinearGradient');
 goog.require('goog.math');
 goog.require('lime.animation.MoveTo');
-
+goog.require('lime.Circle');
+goog.require('lime.Sprite');
 
 goog.require('space_game.Star');
+goog.require('space_game.Wave');
 goog.require('space_game.Player');
 goog.require('space_game.Bullet');
 goog.require('space_game.Enemy');
-goog.require('space_game.Wave');
 goog.require('space_game.State_Machine');
 goog.require('space_game.Signal');
 
@@ -29,20 +30,26 @@ space_game.start = function(){
 	
         var wave_number = 1;
         
-        
         var state_machine = new space_game.State_Machine();
         state_machine.name = "Space_Game_State_Machine";
         state_machine.setStateList(["Startup","Main_Menu","Loading_Wave",
             "Running_Wave","Ending_Wave","Store","Help"]);
         state_machine.setState("Running_Wave"); //will implement rest later
         
-        state_machine.printLog();
+        //state_machine.printLog();
         
         var wave = new space_game.Wave(wave_number,state_machine);
         
-        
         director.replaceScene(wave.wave_scene);
-	
+        
+        /*
+        var timestep=25;
+        lime.scheduleManager.scheduleWithDelay(function(){
+            this.update(timestep);
+        },wave,timestep)
+        
+        director.replaceScene(wave.wave_scene);*/
+}
 	/*var enemy_goal_y = 280;
 	
 	//add stars to sky layer
@@ -182,9 +189,8 @@ space_game.start = function(){
 	scene1.appendChild(player);
 	
 	// set current scene active
-	director.replaceScene(scene1);*/
-
-}
+	director.replaceScene(scene1);
+}*/
 
 
 //this is required for outside access after code is compiled in ADVANCED_COMPILATIONS mode

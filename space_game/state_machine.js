@@ -64,6 +64,11 @@ space_game.State_Machine.prototype.sendSignal =
         function(signal) {
             if (typeof signal == typeof new space_game.Signal() ) {
                 this.signal_queue.push(signal);
+                console.log(this.name+" recieved a signal");
+                console.log("-signal.name = "+signal.name);
+                for (i in signal.data) {
+                    console.log("-signal.data["+i+"] = "+signal.data[i]);
+                }
             } else {
                 var signalType = typeof signal;
                 var correct_type = typeof new space_game.Signal()
@@ -127,4 +132,43 @@ space_game.State_Machine.prototype.getState = function() {
     return(this.state);
 }
 
+space_game.State_Machine.prototype.formTransition(from_state,to_state){
+    return("_"+from_state+"__TO__"+to_state+"_")
+}
+
+space_game.State_Machine.prototype.addAllowedTransition(transition) {
+    if (!this.allowedTransitions.includes(transition)) {
+        this.allowedTransitions.push(transition);
+    } else {
+        console.log("STATE_MACHINE_WARNING: "+this.name+": attempted to "+
+                "add transition "+transition+" to its list of allowed "+
+                "transitions, but that transition was already there!")
+    }
+}
+
+space_game.State_Machine.prototype.addDisallowedTransition(transition) {
+    if (!this.disallowedTransitions.includes(transition)) {
+        this.disallowedTransitions.push(transition);
+    } else {
+        console.log("STATE_MACHINE_WARNING: "+this.name+": attempted to "+
+                "add transition "+transition+" to its list of disallowed "+
+                "transitions, but that transition was already there!")
+    }
+}
+
+space_game.State_Machine.prototype.canTransitionTo(state) {
+    canTransition=true;
+    transition="_"+this.state+"__TO__"+state+"_"
+    if (this.allowedTransitions.length > 0) {
+        if (!(this.allowedTransitions.includes(transition))) {
+            canTransition=false;
+        }
+    }
+    if (this.disallowedTransitions.length > 0) {
+        if (this.disallowedTransitions.includes(transition)) {
+            canTransition=false;
+        }
+    }
+    return(canTransition);
+}
 

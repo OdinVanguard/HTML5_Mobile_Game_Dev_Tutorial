@@ -39,16 +39,14 @@ space_game.start = function(){
         //state_machine.printLog();
         
         var wave = new space_game.Wave(wave_number,state_machine);
+               
+        var timestep=40; //40 ms = 25 frames per second target speed
+        lime.scheduleManager.scheduleWithDelay(function(){
+            this.updateSelf(timestep);
+        },wave,timestep);
         
         director.replaceScene(wave.wave_scene);
         
-        /*
-        var timestep=25;
-        lime.scheduleManager.scheduleWithDelay(function(){
-            this.update(timestep);
-        },wave,timestep)
-        
-        director.replaceScene(wave.wave_scene);*/
 }
 	/*var enemy_goal_y = 280;
 	

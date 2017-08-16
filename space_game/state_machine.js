@@ -18,7 +18,7 @@ space_game.State_Machine = function() {
     //initialize state_list and state with a default value
     this.state_list = ["base_state"];
     this.state = "base_state";
-    
+    this.data = [];
     //safe-guards to control which states can be set from a given current state
     //These are checked when the setState function is called.
     //They will only have an effect if they are non-empty.
@@ -45,7 +45,18 @@ space_game.State_Machine.prototype.printLog = function(){
     console.log("state = "+this.state);
     console.log("allowedTransitions = "+this.allowedTransitions);
     console.log("disallowedTransitions = "+this.disallowedTransitions);
-    console.log("signal_queue = "+this.signal_queue);
+    if (this.signal_queue.length > 0) {
+        console.log("signal_queue: ");
+        for (i in this.signal_queue) {
+            console.log("-signal_queue["+i+"] = "+this.signal_queue[i])
+        }
+    }
+    if (this.data.length > 0) {
+        console.log("data: ");
+        for (i in this.data) {
+            console.log("-data["+i+"] = "+this.data[i])
+        }    
+    }
     console.log("--------------------------------------------------");
 }
 
@@ -64,11 +75,11 @@ space_game.State_Machine.prototype.sendSignal =
         function(signal) {
             if (typeof signal == typeof new space_game.Signal() ) {
                 this.signal_queue.push(signal);
-                console.log(this.name+" recieved a signal");
+                /*console.log(this.name+" recieved a signal");
                 console.log("-signal.name = "+signal.name);
                 for (i in signal.data) {
                     console.log("-signal.data["+i+"] = "+signal.data[i]);
-                }
+                }*/
             } else {
                 var signalType = typeof signal;
                 var correct_type = typeof new space_game.Signal()
@@ -137,7 +148,9 @@ space_game.State_Machine.prototype.formTransition =
     return("_"+from_state+"__TO__"+to_state+"_");
 }
 
-space_game.State_Machine.prototype.addAllowedTransition = function(transition) {
+space_game.State_Machine.prototype.addAllowedTransition = function(
+        from_state,to_state) {
+    var transition = this.formTransition(from_state,to_state);
     if (!this.allowedTransitions.includes(transition)) {
         this.allowedTransitions.push(transition);
     } else {
@@ -148,7 +161,8 @@ space_game.State_Machine.prototype.addAllowedTransition = function(transition) {
 }
 
 space_game.State_Machine.prototype.addDisallowedTransition = 
-    function(transition) {
+    function(from_state,to_state) {
+    var tranisition = this.formTranisition(from_state,to_state);
     if (!this.disallowedTransitions.includes(transition)) {
         this.disallowedTransitions.push(transition);
     } else {
@@ -158,19 +172,34 @@ space_game.State_Machine.prototype.addDisallowedTransition =
     }
 }
 
-space_game.State_Machine.prototype.canTransitionTo = function(state) {
+space_game.State_Machine.prototype.canTransitionTo = function(to_state) {
     canTransition=true;
-    transition="_"+this.state+"__TO__"+state+"_"
-    if (this.allowedTransitions.length > 0) {
-        if (!(this.allowedTransitions.includes(transition))) {
-            canTransition=false;
+    transition=this.formTransition(this.state,to_state);
+    if (this.state_list.includes(to_state)) {
+        if (this.allowedTransitions.length > 0) {
+            if (!(this.allowedTransitions.includes(transition))) {
+                canTransition=false;
+            }
         }
-    }
-    if (this.disallowedTransitions.length > 0) {
-        if (this.disallowedTransitions.includes(transition)) {
-            canTransition=false;
+        if (this.disallowedTransitions.length > 0) {
+            if (this.disallowedTransitions.includes(transition)) {
+                canTransition=false;
+            }
         }
+    } else {
+        canTransition=false;
     }
     return(canTransition);
+}
+
+space_game.State_Machine.prototype.transitionTo = function(to_state) {
+    if(this.canTransitionTo(to_state)) {
+        this.setState(to_state)
+    } else {
+        console.log("STATE_MACHINE_WARNING: "+this.name+
+                ": was told to transition to the unrecognize state '"+
+                to_state+
+                +"'!")
+    }
 }
 

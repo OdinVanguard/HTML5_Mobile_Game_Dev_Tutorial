@@ -55,21 +55,83 @@ space_game.Wave = function(wave_number,parent_state_machine) {
     
     var that = this;
     //setup key press listener
-    var keyHandler = new goog.events.KeyHandler(goog.dom.getDocument().body);
+    goog.events.listen(goog.dom.getDocument().body,
+        [goog.events.EventType.KEYDOWN,goog.events.EventType.KEYUP],
+        function(e){
+            e.stopPropagation();
+            keyPressed = e.keyCode;
+            var mod = 1;
+            /*console.log("KEY EVENT OF TYPE:"+e.type+
+                    "; KEY CODE = "+keyPressed);*/
+            if(! (e.type == goog.events.EventType.KEYDOWN) ) {
+                mod = 0;
+            }
+            if (keyPressed == goog.events.KeyCodes.LEFT) {
+                var slide_data = [];
+                slide_data["direction"] = [];
+                slide_data["direction"]["x"] = -1*mod;
+                var signal = new space_game.Signal("slide",slide_data);
+                that.player.state_machine.sendSignal(signal);
+                
+            } else if (keyPressed == goog.events.KeyCodes.RIGHT) {
+                var slide_data = [];
+                slide_data["direction"] = [];
+                slide_data["direction"]["x"] = 1*mod;
+                signal = new space_game.Signal("slide",slide_data);
+                that.player.state_machine.sendSignal(signal);
+                
+            } else if (keyPressed == goog.events.KeyCodes.UP) {
+                var slide_data = [];
+                slide_data["direction"] = [];
+                slide_data["direction"]["y"] = -1*mod;
+                signal = new space_game.Signal("slide",slide_data);
+                that.player.state_machine.sendSignal(signal);
+                
+            } else if (keyPressed == goog.events.KeyCodes.DOWN) {
+                var slide_data = [];
+                slide_data["direction"] = [];
+                slide_data["direction"]["y"] = 1*mod;
+                signal = new space_game.Signal("slide",slide_data);
+                that.player.state_machine.sendSignal(signal);
+                
+            } else {
+                console.log("unrecognized key pressed");
+            }
+        })
+    /*var keyHandler = new goog.events.KeyHandler(goog.dom.getDocument().body);
 
     goog.events.listen(
         keyHandler,
         goog.events.KeyHandler.EventType.KEY,
         function(e) {
             keyPressed = e.keyCode;
+            var mod = 1;
+            console.log("KEY EVENT OF TYPE:"+e.type);
+            if(! (e.type == goog.events.EventType.KEYDOWN) ) {
+                mod = 0;
+            }
             if (keyPressed == goog.events.KeyCodes.LEFT) {
-                slide_data = [];
-                slide_data["direction"] = "left";
-                signal = new space_game.Signal("slide",slide_data);
+                var slide_data = [];
+                slide_data["direction"] = [];
+                slide_data["direction"]["x"] = -1*mod;
+                var signal = new space_game.Signal("slide",slide_data);
                 that.player.state_machine.sendSignal(signal);
             } else if (keyPressed == goog.events.KeyCodes.RIGHT) {
-                slide_data = [];
-                slide_data["direction"] = "right";
+                var slide_data = [];
+                slide_data["direction"] = [];
+                slide_data["direction"]["x"] = 1*mod;
+                signal = new space_game.Signal("slide",slide_data);
+                that.player.state_machine.sendSignal(signal);
+            } else if (keyPressed == goog.events.KeyCodes.UP) {
+                var slide_data = [];
+                slide_data["direction"] = [];
+                slide_data["direction"]["y"] = -1*mod;
+                signal = new space_game.Signal("slide",slide_data);
+                that.player.state_machine.sendSignal(signal);
+            } else if (keyPressed == goog.events.KeyCodes.DOWN) {
+                var slide_data = [];
+                slide_data["direction"] = [];
+                slide_data["direction"]["y"] = 1*mod;
                 signal = new space_game.Signal("slide",slide_data);
                 that.player.state_machine.sendSignal(signal);
             } else {
@@ -81,7 +143,8 @@ space_game.Wave = function(wave_number,parent_state_machine) {
             // e.altKey
             // e.shiftKey
         }
-    );
+    );*/
+    
     
     //setup mouse click listener
     goog.events.listen(this.layer_sky,['mousedown','touchstart'],
